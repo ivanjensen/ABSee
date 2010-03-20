@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ij</groupId>
+	<artifactId>absee-core</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>absee</name>
+	<url>http://maven.apache.org</url>
+	<repositories>
+		<repository>
+			<id>clojars</id>
+			<name>clojars</name>
+			<url>http://clojars.org/repo</url>
+		</repository>
+		<repository>
+			<id>Codehaus Snapshots</id>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Codehaus Snapshots</id>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>  <!-- Workaround for MNG-2974, see note below -->
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.2.1.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.2.1.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.3.0.ga</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.6.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clojars.mmcgrana</groupId>
+			<artifactId>jredis-core-api</artifactId>
+			<version>a.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clojars.mmcgrana</groupId>
+			<artifactId>jredis-core-ri</artifactId>
+			<version>a.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.schooner</groupId>
+			<artifactId>memcached</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.12</version>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.5</source>
+						<target>1.5</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>hibernate3-maven-plugin</artifactId>
+					<version>1.0-SNAPSHOT</version>
+					<configuration>
+						<hibernate>
+							<propertyFile>/src/main/conf/hbm2ddl.properties</propertyFile>
+						</hibernate>
+						<!-- if left out it will execute directly on your database instead -->
+						<outputFile>${project.artifactId}_create_tabless.sql</outputFile>
+					</configuration>
+					<dependencies>
+						<!--
+							Overriding plugin depenencies might be needed if the plugin is
+							not up to date
+						-->
+						<dependency>
+							<groupId>javax.persistence</groupId>
+							<artifactId>persistence-api</artifactId>
+							<version>1.0</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate</artifactId>
+							<version>3.2.6.ga</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-annotations</artifactId>
+							<version>3.2.1.ga</version>
+						</dependency>
+
+
+						<!-- JDBC driver is not required for hbm2ddl with outputFile -->
+						<!--
+							<dependency> <groupId>net.sourceforge.jtds</groupId>
+							<artifactId>jtds</artifactId> <version>1.2</version>
+							</dependency>
+						-->
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
